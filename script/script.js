@@ -7,11 +7,14 @@ let numeros = document.querySelector('.divisao-1-3')
 
 let etapaAtual = 0;
 let numero = '';
+let votobBranco = false;
 
 function comecarEtapa() {
     let etapa = etapas[etapaAtual];
 
     let numeroHtml = '';
+    numero = '';
+    votobBranco = false;
 
     numeroHtml = '';
     for (let i = 0; i < etapa.numeros; i++) {
@@ -84,16 +87,41 @@ function clicou(n) {
 }
 
 function branco() {
-    alert("Clicou em branco!")
-
+    if(numero === ''){
+        votobBranco = true;
+        seuVotoPara.style.display = 'block';
+        aviso.style.display = 'block';
+        numeros.innerHTML = '' ;
+        descricao.innerHTML = '<div class="aviso--grande pisca">VOTO EM BRANCO</div>';
+        
+} else {
+    alert("Para votar em BRANCO, nao pode ter digitado nenhum numero!");
 }
-
+}
 function corrige() {
-    alert("Clicou em Corrige!")
+    comecarEtapa();
 }
 
 function confirma() {
-    alert("Clicou em Confirma!")
+    let etapa = etapas[etapaAtual];
+
+    let votoConfirmado = false;
+    if(votobBranco === true){
+        votoConfirmado = true;
+        console.log("Confirmando como BRANCO...");
+    } else if (numero.length === etapa.numeros) {
+        votoConfirmado = true;
+        console.log("Confirmando como "+numero);
+    }
+    if(votoConfirmado){
+        etapaAtual++;
+        if (etapas[etapaAtual] !== undefined) {
+            comecarEtapa();
+        } else {
+            console.log("Fim");
+    }
+
+    }
 }
 
 comecarEtapa();
